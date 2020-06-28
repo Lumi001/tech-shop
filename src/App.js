@@ -1,5 +1,8 @@
 import React from 'react';
 import './App.css';
+import CheckoutPage from './components/pages/checkout/checkout.component'
+import { createStructuredSelector } from 'reselect'
+import { selectCurrentUser } from './redux/user/user.selectors'
 import Homepage from './components/pages/homepage/homepage.component'
 import Shop from './components/pages/shop/shop.component'
 import { Switch, Route, Redirect } from 'react-router-dom';
@@ -44,14 +47,21 @@ componentWillUnmount() {
       <Switch>
       <Route exact path='/' component={Homepage} />
       <Route  path='/shop' component={Shop} />
-      <Route exact path='/signin' render={() =>this.props.currentUser?(<Redirect to='/' />) : (<SignInAndSignUp />)} />
+      <Route exact path='/checkout' component={CheckoutPage} />
+      <Route
+       exact
+        path='/signin' 
+        render={() =>
+        this.props.currentUser?
+        (<Redirect to='/' />)
+         : (<SignInAndSignUp />)} />
       </Switch>
     </div>
-  ); 
+  );  
 }
 }
-const mapStateToProps = ({ user }) => ({
-  currentUser: user.currentUser
+const mapStateToProps = createStructuredSelector({
+  currentUser: selectCurrentUser
 })
 
 const mapDispatchToProps = dispatch => ({
